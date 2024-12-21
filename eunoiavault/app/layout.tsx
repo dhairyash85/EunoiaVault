@@ -15,6 +15,7 @@ import { Provider } from 'react-redux'
 import store from '@/redux/store'
 import { JokeOfTheDay } from '@/components/joke-of-the-day'
 import { Toaster } from 'sonner';
+import useMeditationStaking from '@/hooks/useMeditationStakingContract';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -26,6 +27,8 @@ export default function RootLayout({
   const pathname = usePathname();
 
   const isActive = (path: string) => pathname === path;
+
+  const {} = useMeditationStaking();
 
   return (
     <Provider store={store}>
