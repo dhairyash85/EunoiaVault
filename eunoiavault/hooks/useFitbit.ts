@@ -41,7 +41,7 @@ export const useFitbit = () => {
   const { addRewards } = useMeditationStaking();
 
   const FITBIT_CLIENT_ID = '23Q35R';
-  const REDIRECT_URI = 'http://localhost:3000/fitbit';
+  const REDIRECT_URI = 'https://eunoia-vault.vercel.app/fitbit';
 
   useEffect(() => {
     const hash = window.location.hash;
