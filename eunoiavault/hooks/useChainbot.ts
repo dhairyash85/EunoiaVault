@@ -63,13 +63,13 @@ const useChainbot = (initialMessages: Message[] = []) => {
 
         setFunctionName(functionName as FunctionName);
 
-        const botMessage: Message = {
-          role: "bot",
-          content: `I detected that you want to call the function "${functionName}" with parameters: ${JSON.stringify(
-            parameters
-          )}`,
-        };
-        setMessages((prev) => [...prev, botMessage]);
+        // const botMessage: Message = {
+        //   role: "bot",
+        //   content: `I detected that you want to call the function "${functionName}" with parameters: ${JSON.stringify(
+        //     parameters
+        //   )}`,
+        // };
+        // setMessages((prev) => [...prev, botMessage]);
 
         let botMessageUserData: Message = { role: "bot", content: "" };
 
