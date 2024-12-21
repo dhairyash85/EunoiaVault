@@ -45,9 +45,6 @@ export default function RootLayout({
                         <Link href="/" className={`flex items-center text-sm font-medium text-muted-foreground hover:text-primary ${isActive('/') ? 'border-b-2 border-primary' : ''}`}>
                           Home
                         </Link>
-                        <Link href="/dashboard" className={`flex items-center text-sm font-medium text-muted-foreground hover:text-primary ${isActive('/dashboard') ? 'border-b-2 border-primary' : ''}`}>
-                          Dashboard
-                        </Link>
                         <Link href="/input" className={`flex items-center text-sm font-medium text-muted-foreground hover:text-primary ${isActive('/input') ? 'border-b-2 border-primary' : ''}`}>
                           Check-In
                         </Link>
