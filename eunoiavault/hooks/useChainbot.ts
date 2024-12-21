@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import useMeditationStaking from "./useMeditationStakingContract";
 import { ethers } from "ethers";
 import { toast } from "sonner"; 
@@ -17,7 +17,9 @@ enum FunctionName {
   HASSTAKED = "hasstaked",
   ADHERENCECOUNT = "adherencecount",
   CHECKBALANCE = "getbalance",
-  GENERIC = "generic"
+  STEPS= "numberOfSteps",
+  GENERIC = "generic",
+  CLAIMREWARDS = "claimRewards"
 }
 
 const useChainbot = (initialMessages: Message[] = []) => {
@@ -27,8 +29,8 @@ const useChainbot = (initialMessages: Message[] = []) => {
   const [error, setError] = useState<string | null>(null);
   const [functionName, setFunctionName] = useState<FunctionName | null>(null);
 
-  const { stake, register, withdraw, checkIn, userData } = useMeditationStaking();
-
+  const { stake, register, withdraw, checkIn, userData, addRewards } = useMeditationStaking();
+  useEffect(()=>console.log(userData), [userData])
   const handleSend = useCallback(async () => {
     if (input.trim() === "") return;
 
@@ -81,6 +83,15 @@ const useChainbot = (initialMessages: Message[] = []) => {
               toast.error("Invalid amount for staking");
             }
             break;
+          case FunctionName.CLAIMREWARDS:
+            // const stepsToAdd = parameters.toString();  
+            // try {
+            //   addRewards(stepsToAdd);
+            // } catch (err) {
+            //   console.error("Error claiming:", err);
+            //   toast.error("Invalid amount to claim");
+            // }
+            break;
           case FunctionName.WITHDRAW:
             withdraw();
             break;
@@ -117,6 +128,13 @@ const useChainbot = (initialMessages: Message[] = []) => {
             botMessageUserData = {
               role: "bot",
               content: `Your balance is ${ethers.utils.formatUnits(userData.stakeAmount.toString(), 18)} ETH`,
+            };
+            setMessages((prev) => [...prev, botMessageUserData]);
+            break;
+          case FunctionName.STEPS:
+            botMessageUserData = {
+              role: "bot",
+              content: `You have walked a total of ${Math.round(+ethers.utils.formatUnits(userData.numberOfSteps.toString(), 18))} steps`,
             };
             setMessages((prev) => [...prev, botMessageUserData]);
             break;

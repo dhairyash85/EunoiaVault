@@ -38,8 +38,8 @@ export default function RootLayout({
                   <div className="container flex justify-between items-center h-16 mx-auto sm:justify-between sm:space-x-0 px-1">
                     <div className="flex gap-6 md:gap-10">
                       <Link href="/" className="flex items-center space-x-2">
-                        <Image src="/logo.png" width={50} height={50} alt="MindAI Logo"  />
-                        <span className="inline-block font-bold text-xl">MindAI</span>
+                        <Image src="/logo.png" width={50} height={50} alt="Eunoia Vault Logo"  />
+                        <span className="inline-block font-bold text-xl">Eunoia Vault</span>
                       </Link>
                       <nav className="flex gap-6">
                         <Link href="/" className={`flex items-center text-sm font-medium text-muted-foreground hover:text-primary ${isActive('/') ? 'border-b-2 border-primary' : ''}`}>
@@ -65,6 +65,9 @@ export default function RootLayout({
                         </Link>
                         <Link href="/stake" className={`flex items-center text-sm font-medium text-muted-foreground hover:text-primary ${isActive('/stake') ? 'border-b-2 border-primary' : ''}`}>
                           Stake
+                        </Link>
+                        <Link href="/fitbit" className={`flex items-center text-sm font-medium text-muted-foreground hover:text-primary ${isActive('/fitbit') ? 'border-b-2 border-primary' : ''}`}>
+                          Fitbit
                         </Link>
                         <Link href="/mini-games" className={`flex items-center text-sm font-medium text-muted-foreground hover:text-primary ${isActive('/mini-games') ? 'border-b-2 border-primary' : ''}`}>
                           Mini Games
@@ -107,7 +110,7 @@ export default function RootLayout({
                 <footer className="py-6 md:px-8 md:py-0">
                   <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
                     <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-                      Built with care by MindAI. Always seek professional help in crisis situations.
+                      Built with care by 4DNC. Always seek professional help in crisis situations.
                     </p>
                   </div>
                 </footer>

@@ -13,7 +13,7 @@ const MINIMUM_STAKE = 0.1
 export default function Stake() {
   const [stakeAmount, setStakeAmount] = useState('')
   const [isStaked, setIsStaked] = useState(false)
-  const { stake, withdraw, isLoading, error, register, userData } = useMeditationStaking();
+  const { stake, withdraw, isLoading, register, userData } = useMeditationStaking();
 
   useEffect(() => {
     console.log(userData)

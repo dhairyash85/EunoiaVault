@@ -38,7 +38,8 @@ export async function POST(req: Request) {
     - "Last checked time": Call the "lastchecktime" function with no parameters.
     - "Has staked": Call the "hasstaked" function with no parameters.
     - "Total checkins": Call the "adherencecount" function with no parameters.
-    
+    - "Number of steps walked": Call the "numberOfSteps" function with no parameters.
+    - "Claim my rewards for steps": Call the "claimRewards" function with no parameters.
     If the user request is unclear or not supported, respond with a generic message like:
     {
       "functionName": "generic",
@@ -61,7 +62,7 @@ export async function POST(req: Request) {
 
       if (responseData.functionName) {
         if (
-          ['stake', 'withdraw', 'getbalance', 'register', 'lastchecktime', 'hasstaked', 'adherencecount'].includes(responseData.functionName)
+          ['stake', 'withdraw', 'getbalance', 'register', 'lastchecktime', 'hasstaked', 'adherencecount', 'numberOfSteps', 'claimRewards'].includes(responseData.functionName)
         ) {
           return NextResponse.json(responseData);
         } else if (responseData.functionName === 'generic') {

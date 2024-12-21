@@ -6,7 +6,7 @@ import useMeditationTimer from '@/hooks/useMeditationTimer';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { backgroundSounds, meditationTechniques } from '../../lib/meditationData';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useFaceDetection } from '@/hooks/useFaceDetection'; 
 import { useWebcam } from "@/hooks/useWebCam";
 import useMeditationStaking from "@/hooks/useMeditationStakingContract";
@@ -30,7 +30,7 @@ export default function Meditation() {
   const isFaceDetected = useFaceDetection(videoRef.current); 
   useEffect(()=>{
     if(!isFaceDetected) resetTimer();
-  }, [isFaceDetected])
+  }, [isFaceDetected , resetTimer])
   
   useEffect(()=>{
     async function completeMeditate(){
@@ -39,7 +39,7 @@ export default function Meditation() {
     }
     if(userData?.hasStaked && timeLeft==0) completeMeditate()
     else if(timeLeft==0) console.log("You have not staked")
-  }, [timeLeft, userData])
+  }, [timeLeft, userData , checkIn])
 
   const handleToggleTimer = () => {
     toggleTimer();
@@ -132,7 +132,7 @@ export default function Meditation() {
 
       <div className="text-center mt-6">
         {isFaceDetected ? (
-          <p className="text-lg text-green-600">You're meditating! Stay focused and present.</p>
+          <p className="text-lg text-green-600">You&apos;re meditating! Stay focused and present.</p>
         ) : (
           <p className="text-lg text-red-600">Please look at the camera to meditate.</p>
         )}

@@ -9,8 +9,8 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center space-y-12">
       <div className="text-center space-y-4 flex flex-col items-center">
-        <Image src="/logo.png" width={200} height={200} alt="MindAI Logo"  />
-        <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">Welcome to MindAI</h1>
+        <Image src="/logo.png" width={200} height={200} alt="eunoiavault Logo"  />
+        <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">Welcome to EunoiaVault</h1>
         <p className="text-xl text-muted-foreground">Your AI-powered mental health companion</p>
       </div>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
