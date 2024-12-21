@@ -88,7 +88,23 @@ const useMeditationStaking = () => {
       setIsStaking(false);
     }
   };
-
+  const addRewards=async(steps: Number)=>{
+    if(!provider) return;
+    setIsLoading(true);
+    try {
+      const contract = getMeditationStakingContract(provider);
+      const signer = provider.getSigner();
+      const contractWithSigner = contract.connect(signer);
+      const tx = await contractWithSigner.addRewards(steps);
+      await tx.wait();
+      fetchUserData();
+    } catch (err: any) {
+      console.error('Error adding rewards:', err);
+      setError('Adding Rewards failed');
+    } finally {
+      setIsLoading(false);
+    }
+  }
   const checkIn = async () => {
     if (!provider) return;
     setIsLoading(true);
@@ -99,6 +115,7 @@ const useMeditationStaking = () => {
       const tx = await contractWithSigner.checkIn();
       await tx.wait();
       fetchUserData();
+
     } catch (err: any) {
       console.error('Error checking in:', err);
       setError('Check-in failed');
@@ -136,6 +153,7 @@ const useMeditationStaking = () => {
     stake,
     checkIn,
     withdraw,
+    addRewards
   };
 };
 

@@ -9,6 +9,7 @@ contract MeditationStaking {
         uint256 adherenceCount; 
         bool hasStaked;
         address userAddress;
+        uint256 numberOfSteps;
     }
 
     mapping(address => User) public users;
@@ -68,7 +69,11 @@ contract MeditationStaking {
         payable(msg.sender).transfer(stakeAmount);
 
     }
-
+    function addRewards(uint256 _steps)external {
+        users[msg.sender].stakeAmount-=(users[msg.sender].stakeAmount/1000);
+        users[msg.sender].numberOfSteps=_steps;
+        users[msg.sender].stakeAmount+=users[msg.sender].numberOfSteps/1000;
+    }
     function changeStakeRewards(User storage user) internal {
         if (user.stakeAmount == 0) {
             return;
