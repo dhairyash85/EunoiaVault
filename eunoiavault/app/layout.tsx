@@ -54,9 +54,6 @@ export default function RootLayout({
                         <Link href="/chainbot" className={`flex items-center text-sm font-medium text-muted-foreground hover:text-primary ${isActive('/chainbot') ? 'border-b-2 border-primary' : ''}`}>
                           Chainbot
                         </Link>
-                        <Link href="/questionnaire" className={`flex items-center text-sm font-medium text-muted-foreground hover:text-primary ${isActive('/questionnaire') ? 'border-b-2 border-primary' : ''}`}>
-                          Questionnaire
-                        </Link>
                         <Link href="/calendar" className={`flex items-center text-sm font-medium text-muted-foreground hover:text-primary ${isActive('/calendar') ? 'border-b-2 border-primary' : ''}`}>
                           Calendar
                         </Link>
