@@ -1,135 +1,22 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { motion } from "framer-motion";
-import useMeditationStaking from "@/hooks/useMeditationStakingContract";
 
-type FitbitData = {
-  activities: Array<{
-    name: string;
-    calories: number;
-    distance: number;
-    steps: number;
-    duration: number;
-  }>;
-  summary: {
-    caloriesOut: number;
-    steps: number;
-    distances: Array<{ activity: string; distance: number }>;
-    activeMinutes: number;
-  };
-  goals: {
-    caloriesOut: number;
-    steps: number;
-    distance: number;
-    activeMinutes: number;
-  };
-};
+import { useFitbit } from "@/hooks/useFitbit";
 
-type LifetimeStepsData = {
-  lifetime: {
-    total: {
-      steps: number;
-    };
-    tracker: {
-      steps: number;
-    };
-  };
-};
 
 const FitbitIntegration = () => {
-  const [activitySummary, setActivitySummary] = useState<FitbitData | null>(null);
-  const [isLinked, setIsLinked] = useState(false);
-  const {addRewards} = useMeditationStaking()
-
-  const FITBIT_CLIENT_ID = "23Q35R"; 
-  const REDIRECT_URI = "http://localhost:3000/fitbit"; 
-
-  const connectFitbit = () => {
-    const scope = "activity";
-    const fitbitAuthUrl = `https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=${FITBIT_CLIENT_ID}&redirect_uri=${encodeURIComponent(
-      REDIRECT_URI
-    )}&scope=${scope}`;
-    window.location.href = fitbitAuthUrl;
-  };
-
-  // Fetch activity summary using the access token
-  const fetchActivitySummary = async (accessToken: string) => {
-    try {
-      const response = await fetch("https://api.fitbit.com/1/user/-/activities/date/2024-12-21.json", {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Error fetching activity summary");
-      }
-
-      const data = await response.json();
-      setActivitySummary(data);
-      console.log(data);
-    } catch (error) {
-      console.error("Error fetching activity summary:", error);
-    }
-  };
-
-  // Fetch lifetime steps data
-  const fetchLifetimeSteps = async (accessToken: string) => {
-    try {
-      const response = await fetch("https://api.fitbit.com/1/user/-/activities.json", {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Error fetching lifetime steps data");
-      }
-
-      const data: LifetimeStepsData = await response.json();
-      try{
-        addRewards(data.lifetime.total.steps)
-      }catch(err){
-        console.log(err)
-      }
-
-
-      console.log("Lifetime Steps:", data.lifetime.total.steps);
-    } catch (error) {
-      console.error("Error fetching lifetime steps data:", error);
-    }
-  };
-
-  useEffect(() => {
-    const hash = window.location.hash;
-    if (hash) {
-      const params = new URLSearchParams(hash.replace("#", ""));
-      const accessToken = params.get("access_token");
-      if (accessToken) {
-        fetchActivitySummary(accessToken);
-        setIsLinked(true);
-      }
-    }
-  }, []);
+  const {connectFitbit , isLinked, activitySummary , handleClaimReward} = useFitbit()
 
   const calculateReward = (steps: number) => {
     return (steps / 1000) * 0.1;
   };
 
-  // Handle Claim Reward button click
-  const handleClaimReward = () => {
-    const hash = window.location.hash;
-    const params = new URLSearchParams(hash.replace("#", ""));
-    const accessToken = params.get("access_token");
-    if (accessToken) {
-      fetchLifetimeSteps(accessToken); 
-    }
-  };
-
+  
   return (
     <div className="space-y-6">
       <div className="flex justify-between">

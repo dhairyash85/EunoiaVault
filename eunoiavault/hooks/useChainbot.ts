@@ -29,7 +29,7 @@ const useChainbot = (initialMessages: Message[] = []) => {
   const [error, setError] = useState<string | null>(null);
   const [functionName, setFunctionName] = useState<FunctionName | null>(null);
 
-  const { stake, register, withdraw, checkIn, userData, addRewards } = useMeditationStaking();
+  const { stake, register, withdraw, checkIn, userData } = useMeditationStaking();
   useEffect(()=>console.log(userData), [userData])
   const handleSend = useCallback(async () => {
     if (input.trim() === "") return;
@@ -75,7 +75,8 @@ const useChainbot = (initialMessages: Message[] = []) => {
 
         switch (functionName) {
           case FunctionName.STAKE:
-            const amountToStake = parameters.toString();  
+            const amountToStake = parameters.amount.toString();  
+            console.log(parameters.amount)
             try {
               stake(amountToStake);
             } catch (err) {
