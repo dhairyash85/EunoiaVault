@@ -51,6 +51,9 @@ export default function RootLayout({
                         <Link href="/chatbot" className={`flex items-center text-sm font-medium text-muted-foreground hover:text-primary ${isActive('/chatbot') ? 'border-b-2 border-primary' : ''}`}>
                           AI Chat
                         </Link>
+                        <Link href="/chainbot" className={`flex items-center text-sm font-medium text-muted-foreground hover:text-primary ${isActive('/chainbot') ? 'border-b-2 border-primary' : ''}`}>
+                          Chainbot
+                        </Link>
                         <Link href="/questionnaire" className={`flex items-center text-sm font-medium text-muted-foreground hover:text-primary ${isActive('/questionnaire') ? 'border-b-2 border-primary' : ''}`}>
                           Questionnaire
                         </Link>
