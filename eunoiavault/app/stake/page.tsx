@@ -10,10 +10,22 @@ import { toast } from 'sonner'
 
 const MINIMUM_STAKE = 0.1
 
+type UserData = {
+  hasStaked: boolean;
+  userAddress: string;
+  // add other properties if needed
+};
+
 export default function Stake() {
   const [stakeAmount, setStakeAmount] = useState('')
   const [isStaked, setIsStaked] = useState(false)
-  const { stake, withdraw, isLoading, register, userData } = useMeditationStaking();
+  const { stake, withdraw, isLoading, register, userData } = useMeditationStaking() as {
+    stake: (amount: string) => Promise<void>;
+    withdraw: () => Promise<void>;
+    isLoading: boolean;
+    register: () => Promise<void>;
+    userData: UserData | null;
+  };
 
   useEffect(() => {
     console.log(userData)

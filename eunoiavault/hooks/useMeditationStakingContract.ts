@@ -4,7 +4,7 @@ import { getMeditationStakingContract } from '../lib/contract/contract';
 
 const useMeditationStaking = () => {
   const [provider, setProvider] = useState<ethers.providers.Web3Provider | null>(null);
-  const [userData, setUserData] = useState<any>(null);
+  const [userData, setUserData] = useState<unknown>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isStaking, setIsStaking] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -31,12 +31,6 @@ const useMeditationStaking = () => {
     }
   }, [provider]);
 
-  useEffect(() => {
-    if (provider && userAddress) {
-      fetchUserData();
-    }
-  }, [provider, userAddress]);
-
   const fetchUserData = useCallback(async () => {
     if (!provider || !userAddress) return;
     console.log("working");
@@ -49,13 +43,19 @@ const useMeditationStaking = () => {
       const user = await contract.getUser(userAddress);
       console.log(user)
       setUserData(user);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error fetching user data:', err);
       setError('Failed to fetch user data');
     } finally {
       setIsLoading(false);
     }
   }, [provider, userAddress]);
+  useEffect(() => {
+    if (provider && userAddress) {
+      fetchUserData();
+    }
+  }, [fetchUserData, provider, userAddress]);
+
 
   const register = async () => {
     if (!provider) return;
@@ -67,7 +67,7 @@ const useMeditationStaking = () => {
       const tx = await contractWithSigner.register();
       await tx.wait();
       fetchUserData();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error registering:', err);
       setError('Registration failed');
     } finally {
@@ -85,14 +85,14 @@ const useMeditationStaking = () => {
       const tx = await contractWithSigner.stake({ value: ethers.utils.parseEther(amount) });
       await tx.wait();
       fetchUserData();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error staking:', err);
       setError('Staking failed');
     } finally {
       setIsStaking(false);
     }
   };
-  const addRewards=async(steps: Number)=>{
+  const addRewards=async(steps: number)=>{
     if(!provider) return;
     setIsLoading(true);
     try {
@@ -102,7 +102,7 @@ const useMeditationStaking = () => {
       const tx = await contractWithSigner.addRewards(steps);
       await tx.wait();
       fetchUserData();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error adding rewards:', err);
       setError('Adding Rewards failed');
     } finally {
@@ -120,7 +120,7 @@ const useMeditationStaking = () => {
       await tx.wait();
       fetchUserData();
 
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error checking in:', err);
       setError('Check-in failed');
     } finally {
@@ -138,7 +138,7 @@ const useMeditationStaking = () => {
       const tx = await contractWithSigner.withdraw();
       await tx.wait();
       fetchUserData();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error withdrawing:', err);
       setError('Withdrawal failed');
     } finally {
