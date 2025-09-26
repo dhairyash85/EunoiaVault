@@ -49,7 +49,7 @@ export default function RootLayout({
             className={`${inter.className} min-h-screen bg-cover bg-center`}
           >
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-              <div className="flex flex-col min-h-screen">
+              <div className="flex flex-col min-h-screen px-4">
                 <header className="sticky top-0 z-40 w-full border-b backdrop-blur ">
                   <div className="container flex justify-between items-center h-16 mx-auto sm:justify-between sm:space-x-0 px-1">
                     <div className="flex gap-6 md:gap-10">
