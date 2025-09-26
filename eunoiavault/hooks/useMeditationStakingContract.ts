@@ -39,11 +39,15 @@ const useMeditationStaking = () => {
 
   const fetchUserData = useCallback(async () => {
     if (!provider || !userAddress) return;
-
+    console.log("working");
     setIsLoading(true);
     try {
       const contract = getMeditationStakingContract(provider);
+      console.log("user")
+      console.log(userAddress)
+      
       const user = await contract.getUser(userAddress);
+      console.log(user)
       setUserData(user);
     } catch (err: any) {
       console.error('Error fetching user data:', err);
