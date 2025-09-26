@@ -70,7 +70,7 @@ body {
   --card-foreground: oklch(0.9254 0.0076 186.8817);
   --popover: oklch(0.2853 0.0168 183.8263);
   --popover-foreground: oklch(0.9254 0.0076 186.8817);
-  --primary: oklch(0.7124 0.0977 186.6761);
+  --primary: rgb(77, 182, 172);
   --primary-foreground: oklch(0.2143 0.0175 183.1091);
   --secondary: oklch(0.3496 0.0202 181.5089);
   --secondary-foreground: oklch(0.8173 0.0169 182.6113);

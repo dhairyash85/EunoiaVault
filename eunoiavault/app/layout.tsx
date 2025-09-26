@@ -51,7 +51,8 @@ export default function RootLayout({
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               <div className="flex flex-col min-h-screen">
                 <header className="sticky top-0 z-40 w-full border-b backdrop-blur ">
-                  <div className="container flex justify-between items-center h-16 mx-auto sm:justify-between sm:space-x-0 px-1">
+                  <div className="container flex justify-center items-center h-16 mx-auto px-1 gap-6 md:gap-10">
+
                     <div className="flex gap-6 md:gap-10">
                       <Link href="/" className="flex items-center space-x-2">
                         <Image

@@ -127,10 +127,10 @@ void main() {
 `;
 
 const Threads: React.FC<ThreadsProps> = ({
-  color = [1, 230, 1 ],
-  amplitude = 1,
-  distance = 0,
-  enableMouseInteraction = false,
+  color = [77, 182, 172 ],
+  amplitude = 4.5,
+  distance = 1.5,
+  enableMouseInteraction = true,
   ...rest
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);

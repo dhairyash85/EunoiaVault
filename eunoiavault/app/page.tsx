@@ -8,25 +8,24 @@ import {
 } from "@/components/ui/card";
 import { Brain, Heart, Smile } from "lucide-react";
 import Image from "next/image";
-import Threads from "@/components/ui/threads";
+import { ThemedThreads } from "@/components/ui/ThemedThreads";
 import GradientBlinds from "@/components/GradientBlinds";
 
 export default function Home() {
   return (
-    <div className="relative w-full h-screen flex flex-col items-center justify-start overflow-hidden">
+    <div className="fixed inset-0 w-full h-full flex flex-col items-center justify-center overflow-hidden">
 
       {/* Background Threads */}
       <div className="absolute inset-0 -z-10">
-        <Threads
-          
-          amplitude={1}
+        <ThemedThreads
+          amplitude={1.2}
           distance={0}
           enableMouseInteraction={true}
         />
       </div>
 
       {/* Foreground content */}
-      <div className="relative z-10 flex flex-col items-center space-y-12 mt-24">
+      <div className="relative z-10 flex flex-col items-center space-y-6 px-4">
         <div className="text-center space-y-4 flex flex-col items-center">
           <h2 className="text-4xl font-extrabold tracking-tight lg:text-5xl">
             Welcome to
@@ -39,8 +38,8 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <Card>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 max-w-4xl px-4">
+          <Card className="backdrop-blur-lg bg-white/10 border-white/20">
             <CardHeader>
               <Brain className="w-8 h-8 mb-2 text-primary" />
               <CardTitle>AI-Powered Insights</CardTitle>
@@ -50,7 +49,7 @@ export default function Home() {
               </CardDescription>
             </CardHeader>
           </Card>
-          <Card>
+          <Card className="backdrop-blur-lg bg-white/10 border-white/20">
             <CardHeader>
               <Heart className="w-8 h-8 mb-2 text-primary" />
               <CardTitle>Coping Strategies</CardTitle>
@@ -59,7 +58,7 @@ export default function Home() {
               </CardDescription>
             </CardHeader>
           </Card>
-          <Card>
+          <Card className="backdrop-blur-lg bg-white/10 border-white/20">
             <CardHeader>
               <Smile className="w-8 h-8 mb-2 text-primary" />
               <CardTitle>Daily Check-Ins</CardTitle>
