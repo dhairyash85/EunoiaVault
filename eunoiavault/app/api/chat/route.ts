@@ -7,8 +7,9 @@ interface ChatRequest {
 
 export async function POST(req: Request) {
   const apiKey = process.env.GEMINI_API_KEY;
-
+  console.log("API Key:", apiKey);
   if (!apiKey) {
+    
     console.error('API Key is missing');
     return new NextResponse('GEMINI_API_KEY is missing', { status: 500 });
   }
@@ -17,7 +18,7 @@ export async function POST(req: Request) {
 
   const genAI = new GoogleGenerativeAI(apiKey);
 
-  const modelName = "tunedModels/mind-ai-latest-u5yzzic84fe9";
+  const modelName = "gemini-2.5-flash";
 
   const generationConfig = {
     temperature: 0.5,

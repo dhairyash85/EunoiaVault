@@ -40,7 +40,7 @@ export default function Stake() {
       return;
     }
 
-    if (!userData) {
+    if (!userData || userData.userAddress=="0x0000000000000000000000000000000000000000") {
       try {
         toast.loading('Registering user...', { id: 'register' });
         await register();  

@@ -35,9 +35,9 @@ export default function RootLayout({
   })
 
   return (
+        <html lang="en" suppressHydrationWarning>
     <Provider store={store}>
       <ClerkProvider >
-        <html lang="en" suppressHydrationWarning>
           <body className={`${inter.className} min-h-screen bg-cover bg-center`} >
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               <div className="flex flex-col min-h-screen">
@@ -123,8 +123,8 @@ export default function RootLayout({
             </ThemeProvider>
           </body>
           <Toaster />
-        </html>
       </ClerkProvider>
     </Provider>
+        </html>
   )
 }
