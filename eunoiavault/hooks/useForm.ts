@@ -1,5 +1,6 @@
 "use client"
 import { useState } from 'react';
+import { useRouter } from "next/navigation";
 
 export interface FormData {
   mood: string;
@@ -17,6 +18,7 @@ export const useForm = (userId: string) => {
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const router = useRouter();
 
   // Update the handleInputChange function in your `useForm` hook
 const handleInputChange = (
@@ -46,6 +48,7 @@ const handleInputChange = (
 
       if (response.ok) {
         setFormData(initialFormData);
+        router.push("/calendar");
         return true;
       } else {
         const errorData = await response.json();
