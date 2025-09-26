@@ -9,23 +9,75 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import { Analytics } from "@vercel/analytics/next";
-
 import { Inter } from "next/font/google";
 import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
+import { Provider } from "react-redux";
+
 import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/mode-toggle";
-import { usePathname } from "next/navigation";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Provider } from "react-redux";
-import store from "@/redux/store";
 import { JokeOfTheDay } from "@/components/joke-of-the-day";
-import { Toaster } from "sonner";
-import { useEffect } from "react";
+import { ChainbotPopup } from "@/components/ChainbotPopup";
+import store from "@/redux/store";
 import useWalletLogin from "@/hooks/useWalletLogin";
-import { ChainbotPopup } from "@/components/ChainbotPopup"; // Import the popup component
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
+
+// --- Helper Components for Icons ---
+const BurgerIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    stroke="currentColor"
+    fill="none"
+    strokeWidth="2"
+    viewBox="0 0 24 24"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    height="1.2em"
+    width="1.2em"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <line x1="3" y1="12" x2="21" y2="12"></line>
+    <line x1="3" y1="6" x2="21" y2="6"></line>
+    <line x1="3" y1="18" x2="21" y2="18"></line>
+  </svg>
+);
+
+const CloseIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    stroke="currentColor"
+    fill="none"
+    strokeWidth="2"
+    viewBox="0 0 24 24"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    height="1.2em"
+    width="1.2em"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <line x1="18" y1="6" x2="6" y2="18"></line>
+    <line x1="6" y1="6" x2="18" y2="18"></line>
+  </svg>
+);
+
+// --- Navigation Items Array ---
+const navItems = [
+  { href: "/", label: "Home" },
+  { href: "/input", label: "Check-In" },
+  { href: "/chatbot", label: "AI Chat" },
+  { href: "/calendar", label: "Calendar" },
+  { href: "/meditation", label: "Meditation" },
+  { href: "/stake", label: "Stake" },
+  { href: "/fitbit", label: "Fitbit" },
+  { href: "/mini-games", label: "Mini Games" },
+  { href: "/events", label: "Events" },
+  { href: "/helpline", label: "Helpline" },
+];
 
 export default function RootLayout({
   children,
@@ -33,13 +85,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const isActive = (path: string) => pathname === path;
 
   const { connectWallet } = useWalletLogin();
   useEffect(() => {
     connectWallet();
-  }, [connectWallet]); // Added dependency array for correctness
+  }, [connectWallet]);
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -49,140 +102,114 @@ export default function RootLayout({
             className={`${inter.className} min-h-screen bg-cover bg-center`}
           >
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-              <div className="flex flex-col min-h-screen">
+              <div className="flex flex-col min-h-screen px-4">
                 <header className="sticky top-0 z-40 w-full border-b backdrop-blur ">
-                  <div className="container flex justify-center items-center h-16 mx-auto px-1 gap-6 md:gap-10">
+                  <div className="container flex justify-between items-center h-16 mx-auto px-1 gap-6 md:gap-10">
+                    <Link href="/" className="flex items-center space-x-2">
+                      <Image
+                        src="/logo.png"
+                        width={50}
+                        height={50}
+                        alt="Eunoia Vault Logo"
+                      />
+                      <span className="inline-block font-bold text-xl">
+                        Eunoia Vault
+                      </span>
+                    </Link>
 
-                    <div className="flex gap-6 md:gap-10">
-                      <Link href="/" className="flex items-center space-x-2">
-                        <Image
-                          src="/logo.png"
-                          width={50}
-                          height={50}
-                          alt="Eunoia Vault Logo"
-                        />
-                        <span className="inline-block font-bold text-xl">
-                          Eunoia Vault
-                        </span>
-                      </Link>
-                      <nav className="hidden md:flex gap-6">
+                    {/* Desktop Navigation */}
+                    <nav className="hidden md:flex gap-6">
+                      {navItems.map((item) => (
                         <Link
-                          href="/"
+                          key={item.href}
+                          href={item.href}
                           className={`flex items-center text-sm font-medium text-muted-foreground hover:text-primary ${
-                            isActive("/") ? "border-b-2 border-primary" : ""
-                          }`}
-                        >
-                          Home
-                        </Link>
-                        <Link
-                          href="/input"
-                          className={`flex items-center text-sm font-medium text-muted-foreground hover:text-primary ${
-                            isActive("/input")
+                            isActive(item.href)
                               ? "border-b-2 border-primary"
                               : ""
                           }`}
                         >
-                          Check-In
+                          {item.label}
                         </Link>
-                        <Link
-                          href="/chatbot"
-                          className={`flex items-center text-sm font-medium text-muted-foreground hover:text-primary ${
-                            isActive("/chatbot")
-                              ? "border-b-2 border-primary"
-                              : ""
-                          }`}
+                      ))}
+                    </nav>
+
+                    {/* Right side controls */}
+                    <div className="flex items-center gap-4">
+                      <ModeToggle />
+                      <div className="hidden md:block">
+                        <SignedOut>
+                          <SignInButton mode="modal">
+                            <Button variant="outline">Sign In</Button>
+                          </SignInButton>
+                        </SignedOut>
+                        <SignedIn>
+                          <UserButton />
+                        </SignedIn>
+                      </div>
+                      {/* Mobile Menu Button */}
+                      <div className="md:hidden">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => setIsMenuOpen(true)}
                         >
-                          AI Chat
-                        </Link>
-                        <Link
-                          href="/calendar"
-                          className={`flex items-center text-sm font-medium text-muted-foreground hover:text-primary ${
-                            isActive("/calendar")
-                              ? "border-b-2 border-primary"
-                              : ""
-                          }`}
-                        >
-                          Calendar
-                        </Link>
-                        <Link
-                          href="/meditation"
-                          className={`flex items-center text-sm font-medium text-muted-foreground hover:text-primary ${
-                            isActive("/meditation")
-                              ? "border-b-2 border-primary"
-                              : ""
-                          }`}
-                        >
-                          Meditation
-                        </Link>
-                        <Link
-                          href="/stake"
-                          className={`flex items-center text-sm font-medium text-muted-foreground hover:text-primary ${
-                            isActive("/stake")
-                              ? "border-b-2 border-primary"
-                              : ""
-                          }`}
-                        >
-                          Stake
-                        </Link>
-                        <Link
-                          href="/fitbit"
-                          className={`flex items-center text-sm font-medium text-muted-foreground hover:text-primary ${
-                            isActive("/fitbit")
-                              ? "border-b-2 border-primary"
-                              : ""
-                          }`}
-                        >
-                          Fitbit
-                        </Link>
-                        <Link
-                          href="/mini-games"
-                          className={`flex items-center text-sm font-medium text-muted-foreground hover:text-primary ${
-                            isActive("/mini-games")
-                              ? "border-b-2 border-primary"
-                              : ""
-                          }`}
-                        >
-                          Mini Games
-                        </Link>
-                        <Link
-                          href="/events"
-                          className={`flex items-center text-sm font-medium text-muted-foreground hover:text-primary ${
-                            isActive("/events")
-                              ? "border-b-2 border-primary"
-                              : ""
-                          }`}
-                        >
-                          Events
-                        </Link>
-                        <Link
-                          href="/helpline"
-                          className={`flex items-center text-sm font-medium text-muted-foreground hover:text-primary ${
-                            isActive("/helpline")
-                              ? "border-b-2 border-primary"
-                              : ""
-                          }`}
-                        >
-                          Helpline
-                        </Link>
-                      </nav>
-                    </div>
-                    <div className="flex flex-1 items-center justify-end space-x-4 px-1">
-                      <nav className="flex items-center space-x-1">
-                        <ModeToggle />
-                      </nav>
-                    </div>
-                    <div className="flex items-center justify-end px-1">
-                      <SignedOut>
-                        <SignInButton mode="modal">
-                          <Button variant="outline">Sign In</Button>
-                        </SignInButton>
-                      </SignedOut>
-                      <SignedIn>
-                        <UserButton />
-                      </SignedIn>
+                          <BurgerIcon />
+                          <span className="sr-only">Open menu</span>
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </header>
+
+                {/* Mobile Menu Overlay */}
+                {isMenuOpen && (
+                  <div className="fixed inset-0 z-50 bg-background/95 backdrop-blur-sm md:hidden animate-in fade-in-20">
+                    <div className="container flex flex-col items-center justify-center h-full">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="absolute top-4 right-4"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        <CloseIcon />
+                        <span className="sr-only">Close menu</span>
+                      </Button>
+
+                      <nav className="flex flex-col items-center gap-6 text-lg">
+                        {navItems.map((item) => (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            onClick={() => setIsMenuOpen(false)}
+                            className={`font-medium hover:text-primary ${
+                              isActive(item.href)
+                                ? "text-primary"
+                                : "text-muted-foreground"
+                            }`}
+                          >
+                            {item.label}
+                          </Link>
+                        ))}
+                      </nav>
+                      <div className="mt-8">
+                        <SignedOut>
+                          <SignInButton mode="modal">
+                            <Button
+                              variant="outline"
+                              onClick={() => setIsMenuOpen(false)}
+                            >
+                              Sign In
+                            </Button>
+                          </SignInButton>
+                        </SignedOut>
+                        <SignedIn>
+                          <UserButton afterSignOutUrl="/" />
+                        </SignedIn>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 <main className="flex-1">
                   <div className="container w-full mx-auto h-full pt-6 md:pt-12 pb-16">
@@ -200,7 +227,7 @@ export default function RootLayout({
                   </div>
                 </footer>
               </div>
-              <ChainbotPopup /> {/* The popup is added here */}
+              <ChainbotPopup />
               <JokeOfTheDay />
             </ThemeProvider>
           </body>
