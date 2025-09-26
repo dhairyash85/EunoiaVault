@@ -2,6 +2,7 @@ import { toast } from 'sonner';
 
 // Holesky Chain ID: 17000 (0x4268 in hexadecimal)
 const HOLESKY_CHAIN_ID_HEX = '0x4268'; 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const HOLESKY_CHAIN_ID_DEC = 17000;
 
 // You'll need the network details if you have to prompt the user to *add* the network
@@ -39,6 +40,7 @@ const useWalletLogin = () => {
               // Network switched successfully, now proceed
               toast.success(`Switched to Holesky. Connected as: ${accounts[0]}`);
 
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             } catch (switchError: any) {
               // This error code (4902) means the chain hasn't been added to MetaMask.
               if (switchError.code === 4902) {
@@ -76,6 +78,7 @@ const useWalletLogin = () => {
         } else {
           console.error('No accounts found in MetaMask');
         }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         // Handle both connection and network switch errors gracefully
         if (error.message.includes('Network switch required')) {

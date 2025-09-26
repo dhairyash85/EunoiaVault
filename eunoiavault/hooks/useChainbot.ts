@@ -28,12 +28,26 @@ const useChainbot = (initialMessages: Message[] = []) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [functionName, setFunctionName] = useState<FunctionName | null>(null);
-
+  type UserData = {
+    adherencecount?: number;
+    hasStaked?: boolean;
+    stakeAmount?: string | number;
+    lastCheckInTime?: string;
+    numberOfSteps?: string | number;
+  };
   const { stake, register, withdraw, checkIn, userData } =
-    useMeditationStaking();
+    useMeditationStaking() as {
+    stake: (amount: string) => Promise<void>;
+    withdraw: () => Promise<void>;
+    checkIn: () => Promise<void>;
+    isLoading: boolean;
+    register: () => Promise<void>;
+    userData: UserData | null;
+  };
   useEffect(() => console.log(userData), [userData]);
 
   const handleSend = useCallback(async () => {
+    if(!userData) return
     if (input.trim() === "") return;
 
     const userMessage: Message = { role: "user", content: input };
@@ -114,6 +128,7 @@ const useChainbot = (initialMessages: Message[] = []) => {
             setMessages((prev) => [...prev, botMessageUserData]);
             break;
           case FunctionName.HASSTAKED:
+            if(userData.stakeAmount===undefined) return
             botMessageUserData = {
               role: "bot",
               content: userData.hasStaked
@@ -125,14 +140,15 @@ const useChainbot = (initialMessages: Message[] = []) => {
             };
             setMessages((prev) => [...prev, botMessageUserData]);
             break;
-          case FunctionName.LASTCHECKTIME:
-            botMessageUserData = {
-              role: "bot",
-              content: `Your last check time is ${userData.lastCheckInTime}`,
-            };
-            setMessages((prev) => [...prev, botMessageUserData]);
-            break;
-          case FunctionName.CHECKBALANCE:
+            case FunctionName.LASTCHECKTIME:
+              botMessageUserData = {
+                role: "bot",
+                content: `Your last check time is ${userData.lastCheckInTime}`,
+              };
+              setMessages((prev) => [...prev, botMessageUserData]);
+              break;
+              case FunctionName.CHECKBALANCE:
+            if(userData.stakeAmount===undefined) return
             botMessageUserData = {
               role: "bot",
               content: `Your balance is ${ethers.utils.formatUnits(
@@ -142,7 +158,8 @@ const useChainbot = (initialMessages: Message[] = []) => {
             };
             setMessages((prev) => [...prev, botMessageUserData]);
             break;
-          case FunctionName.STEPS:
+            case FunctionName.STEPS:
+            if(userData.numberOfSteps===undefined) return
             botMessageUserData = {
               role: "bot",
               content: `You have walked a total of ${Math.round(
