@@ -164,7 +164,7 @@ export default function RootLayout({
 
                 {/* Mobile Menu Overlay */}
                 {isMenuOpen && (
-                  <div className="fixed inset-0 z-50 bg-background/95 backdrop-blur-sm md:hidden animate-in fade-in-20">
+                  <div className="fixed inset-0 z-50 bg-background/95 backdrop-blur-lg md:hidden animate-in fade-in-20">
                     <div className="container flex flex-col items-center justify-center h-full">
                       <Button
                         variant="ghost"
