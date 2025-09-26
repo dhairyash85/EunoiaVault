@@ -27,7 +27,7 @@ export default function Home() {
           spotlightOpacity={1}
           mouseDampening={0.15}
           distortAmount={0}
-          shineDirection="left"
+          shineDirection="right"
           mixBlendMode="lighten"
         />
       </div>

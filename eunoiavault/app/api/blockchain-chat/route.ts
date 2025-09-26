@@ -16,7 +16,7 @@ export async function POST(req: Request) {
   const { message }: ChatRequest = await req.json();
 
   const genAI = new GoogleGenerativeAI(apiKey);
-  const modelName = "gemini-1.5-flash";
+  const modelName = "gemini-flash-latest";
 
   const generationConfig = {
     temperature: 0.5,

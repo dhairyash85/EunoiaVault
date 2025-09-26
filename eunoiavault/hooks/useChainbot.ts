@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import useMeditationStaking from "./useMeditationStakingContract";
 import { ethers } from "ethers";
-import { toast } from "sonner"; 
+import { toast } from "sonner";
 
 type Message = {
   role: "user" | "bot";
@@ -17,9 +17,9 @@ enum FunctionName {
   HASSTAKED = "hasstaked",
   ADHERENCECOUNT = "adherencecount",
   CHECKBALANCE = "getbalance",
-  STEPS= "numberOfSteps",
+  STEPS = "numberOfSteps",
   GENERIC = "generic",
-  CLAIMREWARDS = "claimRewards"
+  CLAIMREWARDS = "claimRewards",
 }
 
 const useChainbot = (initialMessages: Message[] = []) => {
@@ -29,8 +29,10 @@ const useChainbot = (initialMessages: Message[] = []) => {
   const [error, setError] = useState<string | null>(null);
   const [functionName, setFunctionName] = useState<FunctionName | null>(null);
 
-  const { stake, register, withdraw, checkIn, userData } = useMeditationStaking();
-  useEffect(()=>console.log(userData), [userData])
+  const { stake, register, withdraw, checkIn, userData } =
+    useMeditationStaking();
+  useEffect(() => console.log(userData), [userData]);
+
   const handleSend = useCallback(async () => {
     if (input.trim() === "") return;
 
@@ -52,7 +54,7 @@ const useChainbot = (initialMessages: Message[] = []) => {
       if (!response.ok) {
         const data = await response.json();
         setError(data.error || "An unknown error occurred");
-        toast.error(data.error || "An unknown error occurred");  
+        toast.error(data.error || "An unknown error occurred");
         return;
       }
 
@@ -75,8 +77,8 @@ const useChainbot = (initialMessages: Message[] = []) => {
 
         switch (functionName) {
           case FunctionName.STAKE:
-            const amountToStake = parameters.amount.toString();  
-            console.log(parameters.amount)
+            const amountToStake = parameters.amount.toString();
+            console.log(parameters.amount);
             try {
               stake(amountToStake);
             } catch (err) {
@@ -85,7 +87,7 @@ const useChainbot = (initialMessages: Message[] = []) => {
             }
             break;
           case FunctionName.CLAIMREWARDS:
-            // const stepsToAdd = parameters.toString();  
+            // const stepsToAdd = parameters.toString();
             // try {
             //   addRewards(stepsToAdd);
             // } catch (err) {
@@ -105,7 +107,9 @@ const useChainbot = (initialMessages: Message[] = []) => {
           case FunctionName.ADHERENCECOUNT:
             botMessageUserData = {
               role: "bot",
-              content: `You have Checked in a total of ${Number(userData.adherencecount)}`,
+              content: `You have Checked in a total of ${Number(
+                userData.adherencecount
+              )}`,
             };
             setMessages((prev) => [...prev, botMessageUserData]);
             break;
@@ -113,7 +117,10 @@ const useChainbot = (initialMessages: Message[] = []) => {
             botMessageUserData = {
               role: "bot",
               content: userData.hasStaked
-                ? `You have staked a total of ${ethers.utils.formatUnits(userData.stakeAmount.toString(), 18)}`
+                ? `You have staked a total of ${ethers.utils.formatUnits(
+                    userData.stakeAmount.toString(),
+                    18
+                  )}`
                 : "You haven't staked",
             };
             setMessages((prev) => [...prev, botMessageUserData]);
@@ -128,14 +135,19 @@ const useChainbot = (initialMessages: Message[] = []) => {
           case FunctionName.CHECKBALANCE:
             botMessageUserData = {
               role: "bot",
-              content: `Your balance is ${ethers.utils.formatUnits(userData.stakeAmount.toString(), 18)} ETH`,
+              content: `Your balance is ${ethers.utils.formatUnits(
+                userData.stakeAmount.toString(),
+                18
+              )} ETH`,
             };
             setMessages((prev) => [...prev, botMessageUserData]);
             break;
           case FunctionName.STEPS:
             botMessageUserData = {
               role: "bot",
-              content: `You have walked a total of ${Math.round(+ethers.utils.formatUnits(userData.numberOfSteps.toString(), 18))} steps`,
+              content: `You have walked a total of ${Math.round(
+                +ethers.utils.formatUnits(userData.numberOfSteps.toString(), 18)
+              )} steps`,
             };
             setMessages((prev) => [...prev, botMessageUserData]);
             break;
@@ -152,8 +164,12 @@ const useChainbot = (initialMessages: Message[] = []) => {
       }
     } catch (error) {
       console.error("Error fetching AI response:", error);
-      setError(error instanceof Error ? error.message : "An unknown error occurred");
-      toast.error(error instanceof Error ? error.message : "An unknown error occurred");  // Show error alert with Sonner
+      setError(
+        error instanceof Error ? error.message : "An unknown error occurred"
+      );
+      toast.error(
+        error instanceof Error ? error.message : "An unknown error occurred"
+      ); // Show error alert with Sonner
     } finally {
       setLoading(false);
     }
@@ -169,6 +185,5 @@ const useChainbot = (initialMessages: Message[] = []) => {
     functionName,
   };
 };
-
 
 export default useChainbot;
