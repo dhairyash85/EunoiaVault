@@ -7,9 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Brain, Heart, Smile } from "lucide-react";
-import Image from "next/image";
 import { ThemedThreads } from "@/components/ui/ThemedThreads";
-import GradientBlinds from "@/components/GradientBlinds";
 
 export default function Home() {
   return (

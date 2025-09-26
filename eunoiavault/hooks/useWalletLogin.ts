@@ -40,7 +40,8 @@ const useWalletLogin = () => {
               // Network switched successfully, now proceed
               toast.success(`Switched to Holesky. Connected as: ${accounts[0]}`);
 
-            } catch (switchError: unknown) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            } catch (switchError: any) {
               // This error code (4902) means the chain hasn't been added to MetaMask.
               if (switchError.code === 4902) {
                 try {
@@ -77,7 +78,8 @@ const useWalletLogin = () => {
         } else {
           console.error('No accounts found in MetaMask');
         }
-      } catch (error: unknown) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
         // Handle both connection and network switch errors gracefully
         if (error.message.includes('Network switch required')) {
             // Error already handled and shown to user via toast/alert in the block above

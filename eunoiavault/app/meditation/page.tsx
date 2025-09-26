@@ -26,7 +26,10 @@ import { useEffect, useState } from "react";
 import { useFaceDetection } from "@/hooks/useFaceDetection";
 import { useWebcam } from "@/hooks/useWebCam";
 import useMeditationStaking from "@/hooks/useMeditationStakingContract";
-
+type UserData = {
+  hasStaked?: boolean;
+  // add other properties if needed
+};
 export default function Meditation() {
   const {
     duration,
@@ -41,7 +44,10 @@ export default function Meditation() {
     formatTime,
   } = useMeditationTimer(0.1, backgroundSounds[0].name);
 
-  const { checkIn, userData } = useMeditationStaking();
+  const { checkIn, userData } = useMeditationStaking() as  {
+    checkIn: () => Promise<void>;
+    userData: UserData | null;
+  };;
   const videoRef = useWebcam();
 
   const [cameraOn, setCameraOn] = useState(true);
@@ -67,7 +73,8 @@ export default function Meditation() {
   const handleStopCamera = () => {
     setCameraOn(false);
     if (videoRef.current && videoRef.current.srcObject) {
-      let tracks = videoRef.current.srcObject.getTracks();
+      const mediaStream = videoRef.current.srcObject as MediaStream;
+      const tracks = mediaStream.getTracks();
       tracks.forEach((track) => track.stop());
       videoRef.current.srcObject = null;
     }
