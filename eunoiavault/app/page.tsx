@@ -8,42 +8,32 @@ import {
 } from "@/components/ui/card";
 import { Brain, Heart, Smile } from "lucide-react";
 import Image from "next/image";
-
+import Threads from "@/components/ui/threads";
 import GradientBlinds from "@/components/GradientBlinds";
 
 export default function Home() {
   return (
-    <div className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden">
-      {/* Gradient background */}
-      <div className="absolute inset-0">
-        <GradientBlinds
-          gradientColors={["#FF9FFC", "#5227FF"]}
-          angle={0}
-          noise={0.3}
-          blindCount={12}
-          blindMinWidth={50}
-          spotlightRadius={0.5}
-          spotlightSoftness={1}
-          spotlightOpacity={1}
-          mouseDampening={0.15}
-          distortAmount={0}
-          shineDirection="left"
-          mixBlendMode="lighten"
+    <div className="relative w-full h-screen flex flex-col items-center justify-start overflow-hidden">
+
+      {/* Background Threads */}
+      <div className="absolute inset-0 -z-10">
+        <Threads
+          
+          amplitude={1}
+          distance={0}
+          enableMouseInteraction={true}
         />
       </div>
 
       {/* Foreground content */}
-      <div className="relative z-10 flex flex-col items-center space-y-12">
+      <div className="relative z-10 flex flex-col items-center space-y-12 mt-24">
         <div className="text-center space-y-4 flex flex-col items-center">
-          <Image
-            src="/logo.png"
-            width={200}
-            height={200}
-            alt="eunoiavault Logo"
-          />
-          <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">
-            Welcome to EunoiaVault
-          </h1>
+          <h2 className="text-4xl font-extrabold tracking-tight lg:text-5xl">
+            Welcome to
+          </h2>
+          <h2 className="text-4xl font-extrabold tracking-tight lg:text-5xl">
+            Eunoia Vault
+          </h2>
           <p className="text-xl text-muted-foreground">
             Your AI-powered mental health companion
           </p>

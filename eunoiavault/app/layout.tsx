@@ -105,7 +105,7 @@ export default function RootLayout({
                 </header>
 
                 <main className="flex-1">
-                  <div className="container max-w-7xl mx-auto h-full pt-6 md:pt-12 pb-16">
+                  <div className="container w-full mx-auto h-full pt-6 md:pt-12 pb-16">
                     {children}
                     <Analytics />
                   </div>
