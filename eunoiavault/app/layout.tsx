@@ -42,9 +42,9 @@ export default function RootLayout({
   }, [connectWallet]); // Added dependency array for correctness
 
   return (
-    <Provider store={store}>
-      <ClerkProvider>
-        <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
+      <Provider store={store}>
+        <ClerkProvider>
           <body
             className={`${inter.className} min-h-screen bg-cover bg-center`}
           >
@@ -204,8 +204,8 @@ export default function RootLayout({
             </ThemeProvider>
           </body>
           <Toaster />
-        </html>
-      </ClerkProvider>
-    </Provider>
+        </ClerkProvider>
+      </Provider>
+    </html>
   );
 }
