@@ -27,6 +27,12 @@ export default function Home() {
       {/* Foreground content */}
       <div className="relative z-10 flex flex-col items-center space-y-6 px-4">
         <div className="text-center space-y-4 flex flex-col items-center">
+          <Image
+            src="/logo.png"
+            width={100}
+            height={100}
+            alt="Eunoia Vault Logo"
+            />
           <h2 className="text-4xl font-extrabold tracking-tight lg:text-5xl">
             Welcome to
           </h2>
